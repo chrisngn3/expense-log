@@ -1,0 +1,123 @@
+<body>
+	<div class="text-center">
+  	<br><h1>Expense Details</h1><br><br>
+  </div>
+
+  <div id="user-paid-table">
+		<table class="table table-condensed table-hover table-bordered">
+	  	<thead>
+	  		<tr>
+	  			<th class="col-md-3"></th>
+	  			<% @users.each do |u| %>
+	  				<th class="col-md-3 text-right"><%= u.name %></th>
+	  			<% end %>
+	  		</tr>
+	  	</thead>
+
+	  	<tbody>
+	  		<td><strong>Paid $</strong></td>
+	  		<% user_size = @users.size %>
+				<% @users.each do |u| %>
+					<td class="col-md-3 text-right"><%= u.amount_paid %></td>
+				<% end %>
+	  	</tbody>
+	  </table> <!-- user paid table -->  
+	</div>
+	<br><br>
+
+  <div id="user-split-table">
+		<table class="table table-condensed table-hover table-bordered">
+	  	<thead>
+	  		<tr>
+	  			<th class="col-md-3"></th>
+	  			<% @users.each do |u| %>
+	  				<th class="col-md-3 text-right"><%= u.name %></th>
+	  			<% end %>
+	  		</tr>
+	  	</thead>
+
+	  	<tbody>
+	  		<% user_size = @users.size %>
+				<% @users.each do |u| %>
+					<tr>
+						<td class="col-md-3"><strong><%= "#{u.name}" %></strong></td>
+						<% 1.upto user_size do |i| %>
+							<td class="col-md-3"></td>
+						<% end %>
+					</tr>
+				<% end %>
+	  	</tbody>
+	  </table> <!-- user split table -->  
+	</div>
+	<!-- <h3 class="text-center">Rows Owe Columns</h3><br> -->
+
+  <br><br>
+  <table class="table table-hover table-responsive">
+  	<thead>
+  		<tr>
+  			<th>#</th>
+  			<th>Name</th>
+  			<!-- <th>Description</th> -->
+  			<th>Paid by</th>
+  			<th>Split with</th>
+  			<th><div class="text-right">Cost $</div></th>
+  			<th class="text-right">Modify Expenses</th>
+  		</tr>
+  	</thead>
+
+  	<tbody>
+  		<% if @expenses.size > 0 %>
+	  		<% i = 0 %>
+	  		<% @expenses.each do |expense| %>
+		  		<tr>
+		  			<td><%= i += 1 %></td>
+		  			
+		  			<!-- Link to the expense -->
+		  			<td>
+		  				<div id="blue-links">
+			  				<%=	link_to "#{expense.name}", "expenses/#{expense.id}" %>
+			  			</div>
+		  			</td>
+		  			
+		  			<!-- <td><#%= expense.description %></td> -->
+		  			
+		  			<!--
+		  			<td>
+		  				<#% share = @expense.split_with %>
+		  				<#%= share[0].name %>
+		  				<#%= 1.upto share.size - 1 do |i| %>
+		  					<#%= , share[i].name %>
+		  				<#% end %>
+		  			</td> 
+		  			-->
+
+		  			<td><%= User.find(expense.user_id).name %></td>
+		  			<td></td>
+
+		  			<!-- display the cost with 2 decimal precision -->
+		  			<td class="text-right">
+		  				<%= sprintf '%.2f', expense.cost %>
+		  			</td>
+
+		  			<td class="text-right">
+		  				<div id = "modify-expense-links">
+		  					<p>
+					  			<%= link_to 'Edit', edit_expense_path(expense) %> | 
+					  			<%= link_to 'Delete', expense, method: :delete, data: { confirm: 'Are you sure?' } %>
+					  		</p>
+				  		</div>
+			  		</td>
+		  		</tr>
+	  		<% end %> <!-- expenses.each -->
+  		<% end %> <!-- if expenses.size > 0 -->
+  	</tbody>
+  </table> <!-- expense table -->
+  <br>
+
+  <div class="text-center">
+	  <button type="submit" class="btn btn-primary">
+	 		<%= link_to 'Add an Expense', "/expenses/new" %>
+	 	</button>
+  </div>
+
+</body>

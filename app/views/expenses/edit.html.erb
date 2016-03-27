@@ -1,0 +1,27 @@
+
+<body class="expense-body">
+	<div class="text-center">
+    <br><h1>Expense Details</h1><br>
+  </div>
+
+  <div class="expense-form">
+		<%= bootstrap_form_for(@expense) do |f| %>
+			<div class="jumbotron">
+					<div class="expense-create-form">
+				  <%= f.text_field :name, placeholder: "#{@expense.name}" %>
+				  <!-- <#%= f.text_area :description, placeholder: 'Optional' %> -->
+				  <%= f.text_field :cost, label: "Cost $", placeholder: "#{@expense.cost}" %>
+				  <%= f.select :user_id, User.all.collect {|u| [ u.name, u.id ] }, label: "Paid by" %>
+				</div>
+			</div>
+
+		  <div class="text-center">
+		    <%= f.submit "Update", class: "btn btn-primary" %>
+		    <button type="submit" class="btn btn-danger">
+		 			<%= link_to 'Cancel', "/expenses" %>
+		 		</button>
+		  </div>
+		<% end %>
+	</div>
+</body>
+

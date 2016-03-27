@@ -1,0 +1,37 @@
+
+<body>
+	<div class="text-center">
+    <br><h1>Expense Details</h1><br>
+  </div>
+
+	<table class="table table-hover">
+  	<thead>
+  		<tr>
+  			<th>Name</th>
+  			<th>Paid by</th>
+  			<th>Split with</th>
+  			<th><div class="text-right">Cost $</div></th>
+  			<!-- <th class="text-right">Created at</th> -->
+  			<th class="text-right">Updated at</th>
+  		</tr>
+  	</thead>
+
+  	<tbody>
+  		<tr>
+  			<td><%= @expense.name %></td>
+  			<td><%= User.find(@expense.user_id).name %></td>
+  			<td></td>
+  			<!-- display the cost with 2 decimal precision -->
+  			<td class="text-right"><%= sprintf '%.2f', @expense.cost %></td>
+  			<!-- <td class="text-right"><#%= @expense.created_at %></td> -->
+  			<td class="text-right"><%= @expense.updated_at %></td>
+  		</tr>
+  	</tbody>
+  </table>
+  <div class="text-center">
+		    <button type="submit" class="btn btn-primary">
+		 			<%= link_to 'Back to Main Page', "/expenses" %>
+		 		</button>
+		  </div>
+</body>
+
