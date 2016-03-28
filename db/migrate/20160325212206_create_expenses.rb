@@ -8,7 +8,7 @@ class CreateExpenses < ActiveRecord::Migration
      	t.integer :user_id
       
       # an array of the name of the people to split with
-      t.text :split_with 
+      t.text :split_between 
       t.timestamps null: false
     end
   end

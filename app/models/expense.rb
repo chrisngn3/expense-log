@@ -1,6 +1,6 @@
 class Expense < ActiveRecord::Base
 	# attr_accessor :user_id
-	serialize :split_with, Array
+	serialize :split_between, Array
 
 	belongs_to :user
 

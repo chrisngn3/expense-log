@@ -36,7 +36,7 @@ modify-expense-links > p > a {
 }
 */
 
-#blue-links > a {
+.blue-links > a {
 	color: blue;
 }
 
@@ -80,4 +80,18 @@ body.expense-body {
 .jumbotron {
 	padding-top: 5%;
 	padding-bottom: 5%;
+}
+
+.form-checkbox-container {
+	display: inline-block;
+	vertical-align: -1px;
+  margin: 5px;
+}
+
+.form-checkbox-container input {
+  display: inline;
+}
+
+.form-checkbox-container .collection_check_boxes {
+	display: inline;
 }

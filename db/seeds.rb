@@ -7,6 +7,6 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-chris = User.create name: 'Chris', amount_paid: 0.0
-myron = User.create name: 'Myron', amount_paid: 0.0
-stephen = User.create name: 'Stephen', amount_paid: 0.0
+chris = User.create name: 'Chris', amount_paid: 0.0, owe: {}
+myron = User.create name: 'Myron', amount_paid: 0.0, owe: {}
+stephen = User.create name: 'Stephen', amount_paid: 0.0, owe: {}

@@ -12,6 +12,7 @@
 				  <!-- <#%= f.text_area :description, placeholder: 'Optional' %> -->
 				  <%= f.text_field :cost, label: "Cost $", placeholder: "#{@expense.cost}" %>
 				  <%= f.select :user_id, User.all.collect {|u| [ u.name, u.id ] }, label: "Paid by" %>
+				  <%= f.collection_check_boxes :split_between, User.all, :name, :name %>
 				</div>
 			</div>
 

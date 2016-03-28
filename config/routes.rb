@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  # Expense
   get '/expenses' => 'expenses#index'
   
   get '/expenses/new' => 'expenses#new'
@@ -11,6 +12,10 @@ Rails.application.routes.draw do
   patch '/expenses/:id' => 'expenses#update'
 
   delete '/expenses/:id' => 'expenses#destroy'
+
+  # User
+  get '/users' => 'users#index'
+  get '/users/:id' => 'users#show', as: :user
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

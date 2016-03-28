@@ -18,7 +18,10 @@ class ExpensesController < ApplicationController
 		update_amount_paid @expense.user_id, @expense.cost
 
 		# user must split the cost of the expense with the appropriate parties
-		split_expense(@expense)
+		split_between = @expense.split_between.keep_if { |name| !name.blank? }
+		# p "a = #{a}"
+		amount = @expense.cost / split_between.size
+		split_expense @expense.user, split_between, amount
 
 		if @expense.save
 			flash[:success] = "Expense added!"
@@ -60,13 +63,11 @@ class ExpensesController < ApplicationController
 				# cost is different but user is the same
 				# update the difference in cost since the user is unchanged
 				update_amount_paid old_user_id, new_cost - old_cost
-
-			else
-				# nothing has change so redirect and return early from method
-				redirect_to action: 'index'
-				return
 			end # scenarios
 		end # cost > 0.0
+
+
+
 
     if @expense.update_attributes(expense_params)
     	flash[:success] = "Expense updated!"
@@ -79,25 +80,107 @@ class ExpensesController < ApplicationController
 
 	def destroy
 		@expense = Expense.destroy(params[:id])
+		# @expense = Expense.find(params[:id])
 
 		# remove amount_paid
 		update_amount_paid @expense.user_id, -@expense.cost
 
-		# remove split_with
+		# remove split_between
+		remove_expense @expense
 
-		@expense.destroy
+		# @expense.destroy # do I need this?
 		flash[:success] = "Expense removed!"
 		redirect_to '/expenses'
 	end
 
 	private
 	def expense_params
-		params.require(:expense).permit(:name, :cost, :user_id)
+		# params.require(:expense).permit(:name, :cost, :user_id, :split_between)
+		params.require(:expense).permit! # permit all params
 	end
 
-	def split_expense expense
+	# remove all splitting once an expense is destroyed
+	def remove_expense expense
+		paid_by = expense.user
+		split_between = expense.split_between
+		amount = expense.cost / split_between.size
 
-	end
+		split_between.each do |name|
+			current_user = User.where(name: name).first
+			amount_copy = amount
+
+			if current_user.name != paid_by.name
+				# the person who paid for the expense does not owe himself so nothing to remove
+
+				if current_user.owe[paid_by.name] < amount_copy
+					# the current user owes less than the person who paid for this expense
+					# the person who paid owes the difference
+					amount_copy -= current_user.owe[paid_by.name]
+					current_user.owe[paid_by.name] = 0.0
+				else
+					# all debts are cancelled out
+					current_user.owe[paid_by.name] -= amount_copy
+					amount_copy = 0.0
+				end
+				current_user.save
+
+				if amount_copy > 0.0
+					# the remaining expense that the person who paid for this expense failed to cancelled out
+					paid_by.owe[current_user.name] += amount_copy
+				end
+				paid_by.save
+			end # current_user.name != paid_by.name
+		end  # split_between.eac
+	end # remove_expense
+
+	# add splitting if there are any for an expense
+	def split_expense paid_by, split_between, amount
+		if split_between.size > 0
+			# if there is anything to split
+
+			split_between.each do |name|
+				# first and only because names are unique
+				current_user = User.where(name: name).first 
+				amount_copy = amount
+
+				p "cost = #{amount}"
+				p "current_user = #{current_user.name}"
+				p "paid_by = #{paid_by.name}"
+
+				if current_user.name != paid_by.name
+					# the person who paid does not owe himself
+
+					if paid_by.owe.key?(current_user.name)
+						# if the other person owes the current user, cancel out the debt
+
+						if paid_by.owe[current_user.name] < amount_copy
+							# if what the person who paid for the expense owe the current user 
+							# is less than the amount the current user owe them 
+							# then current owe them the difference
+			        amount_copy -= paid_by.owe[current_user.name]
+			        paid_by.owe[current_user.name] = 0
+			      else
+			      	# if what the person who paid for the expense owe the current user
+			      	# is greater than or equal to the amount the current user owe them
+          		# subtract the amount current user owe them from the amount they owe the current user
+          		paid_by.owe[current_user.name] -= amount_copy
+          		amount_copy = 0.0
+						end
+						paid_by.save
+					end # paid_by.owe.key?(current_user.name)
+
+					if amount_copy > 0.0
+						if current_user.owe.key?(paid_by.name)
+							current_user.owe[paid_by.name] += amount_copy
+						else
+							current_user.owe[paid_by.name] = amount_copy
+						end
+					end # amount > 0
+				end # current_user.name != paid_by.name
+				current_user.save
+			end # split_between.each
+		end # a.size > 0
+	end # split_expense
 
 	def update_paid_by 
 
