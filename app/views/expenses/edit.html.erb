@@ -12,14 +12,15 @@
 				  <!-- <#%= f.text_area :description, placeholder: 'Optional' %> -->
 				  <%= f.text_field :cost, label: "Cost $", placeholder: "#{@expense.cost}" %>
 				  <%= f.select :user_id, User.all.collect {|u| [ u.name, u.id ] }, label: "Paid by" %>
-				  <%= f.collection_check_boxes :split_between, User.all, :name, :name %>
+				  <%= f.collection_check_boxes :split_between, User.all, :name, :name,
+						  help: "* Include yourself if you are paying for part of the expense" %>
 				</div>
 			</div>
 
 		  <div class="text-center">
 		    <%= f.submit "Update", class: "btn btn-primary" %>
 		    <button type="submit" class="btn btn-danger">
-		 			<%= link_to 'Cancel', "/expenses" %>
+		 			<%= link_to 'Cancel', root_url %>
 		 		</button>
 		  </div>
 		<% end %>

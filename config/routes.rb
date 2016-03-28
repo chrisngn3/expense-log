@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # Expense
-  get '/expenses' => 'expenses#index'
-  
+  # get '/expenses' => 'expenses#index' # replace by: root 'expenses#index'
+  root 'expenses#index'
   get '/expenses/new' => 'expenses#new'
   post '/expenses' => 'expenses#create'
 

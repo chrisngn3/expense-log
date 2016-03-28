@@ -41,11 +41,11 @@ modify-expense-links > p > a {
 }
 
 #modify-expense-links > p > a:first-child {
-	color: orange;
+	color: red;
 }
 
 #modify-expense-links > p > a:nth-child(2) {
-	color: red;
+	color: orange;
 }
 
 div.inline {

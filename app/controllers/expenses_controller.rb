@@ -20,8 +20,10 @@ class ExpensesController < ApplicationController
 		# user must split the cost of the expense with the appropriate parties
 		split_between = @expense.split_between.keep_if { |name| !name.blank? }
 		# p "a = #{a}"
-		amount = @expense.cost / split_between.size
-		split_expense @expense.user, split_between, amount
+		if (split_between.size > 0)
+			amount = @expense.cost / split_between.size
+			split_expense @expense.user, split_between, amount
+		end
 
 		if @expense.save
 			flash[:success] = "Expense added!"
@@ -90,7 +92,7 @@ class ExpensesController < ApplicationController
 
 		# @expense.destroy # do I need this?
 		flash[:success] = "Expense removed!"
-		redirect_to '/expenses'
+		redirect_to action: 'index'
 	end
 
 	private
@@ -103,34 +105,37 @@ class ExpensesController < ApplicationController
 	def remove_expense expense
 		paid_by = expense.user
 		split_between = expense.split_between
-		amount = expense.cost / split_between.size
 
-		split_between.each do |name|
-			current_user = User.where(name: name).first
-			amount_copy = amount
+		if (split_between.size > 0)
+			amount = expense.cost / split_between.size
 
-			if current_user.name != paid_by.name
-				# the person who paid for the expense does not owe himself so nothing to remove
+			split_between.each do |name|
+				current_user = User.where(name: name).first
+				amount_copy = amount
 
-				if current_user.owe[paid_by.name] < amount_copy
-					# the current user owes less than the person who paid for this expense
-					# the person who paid owes the difference
-					amount_copy -= current_user.owe[paid_by.name]
-					current_user.owe[paid_by.name] = 0.0
-				else
-					# all debts are cancelled out
-					current_user.owe[paid_by.name] -= amount_copy
-					amount_copy = 0.0
-				end
-				current_user.save
+				if current_user.name != paid_by.name
+					# the person who paid for the expense does not owe himself so nothing to remove
 
-				if amount_copy > 0.0
-					# the remaining expense that the person who paid for this expense failed to cancelled out
-					paid_by.owe[current_user.name] += amount_copy
-				end
-				paid_by.save
-			end # current_user.name != paid_by.name
-		end  # split_between.eac
+					if current_user.owe[paid_by.name] < amount_copy
+						# the current user owes less than the person who paid for this expense
+						# the person who paid owes the difference
+						amount_copy -= current_user.owe[paid_by.name]
+						current_user.owe[paid_by.name] = 0.0
+					else
+						# all debts are cancelled out
+						current_user.owe[paid_by.name] -= amount_copy
+						amount_copy = 0.0
+					end
+					current_user.save
+
+					if amount_copy > 0.0
+						# the remaining expense that the person who paid for this expense failed to cancelled out
+						paid_by.owe[current_user.name] += amount_copy
+					end
+					paid_by.save
+				end # current_user.name != paid_by.name
+			end  # split_between.each
+		end # split_between.size > 0
 	end # remove_expense
 
 	# add splitting if there are any for an expense
