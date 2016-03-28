@@ -4,7 +4,7 @@ class CreateExpenses < ActiveRecord::Migration
     	t.string :name
     	# t.string :description
     	t.float :cost
-      t.references :user, foreign_key: true
+      t.references :user
      	t.integer :user_id
       
       # an array of the name of the people to split with
