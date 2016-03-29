@@ -1,0 +1,122 @@
+ 
+<body>
+	<div class="text-center">
+		<br><h1>Expense Details</h1><br><br>
+	</div>
+
+	<div id="user-paid-table">
+		<table class="table table-condensed table-hover table-bordered table-striped">
+			<thead>
+				<tr>
+					<th class="col-md-3"></th>
+					<% @users.each do |u| %>
+					<th class="col-md-3 text-right"><%= u.name %></th>
+					<% end %>
+				</tr>
+			</thead>
+
+			<tbody>
+				<td><strong>Paid $</strong></td>
+				<% user_size = @users.size %>
+				<% @users.each do |u| %>
+				<td class="col-md-3 text-right"><%= u.amount_paid %></td>
+				<% end %>
+			</tbody>
+		</table> <!-- user paid table -->  
+	</div>
+	<br><br>
+
+	<div id="user-split-table">
+		<table class="table table-condensed table-hover table-bordered table-striped">
+			<thead>
+				<tr>
+					<th class="col-md-3"></th>
+					<% @users.each do |u| %>
+					<th class="col-md-3 text-right"><%= u.name %></th>
+					<% end %>
+				</tr>
+			</thead>
+
+			<tbody>
+				<% user_size = @users.size %>
+				<% counter = 1 %>
+				<% @users.each do |user| %>
+				<tr>
+					<td class="col-md-3"><strong><%= "#{user.name}" %></strong> <small>owes</small></td>
+					<% @users.each do |owe| %>
+					<% if user.name == owe.name %>
+					<td class="text-right">xxxxx</td>
+					<% else %>
+					<% if user[:owe].key?(owe.name) %>
+					<!-- display the cost with 2 decimal precision -->
+					<td class="text-right"><%= sprintf '%.2f', user[:owe][owe.name] %></td>
+					<% else %>
+					<td class="text-right">0.00</td>
+					<% end %>
+					<% end %>
+					<% end %>
+
+					<% 1.upto user_size do |i| %>
+
+					<% end %>
+				</tr>
+				<% end %>
+			</tbody>
+		</table> <!-- user split table -->  
+		<br><br>
+	</div>
+	<!-- <h3 class="text-center">Rows Owe Columns</h3><br> -->
+
+
+	<table class="table table-hover table-condensed table-striped">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Name</th>
+				<!-- <th>Description</th> -->
+				<th>Paid by</th>
+				<th>Split between</th>
+				<th><div class="text-right">Cost $</div></th>
+				<th class="text-right">Modify Expenses</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<% i = 0 %>
+			<% @expenses.each do |expense| %>
+			<tr>
+				<td><%= i += 1 %></td>
+
+				<!-- Link to the expense -->
+				<td><div class="blue-links"><%=	link_to "#{expense.name}", "expenses/#{expense.id}" %></div></td>
+
+				<!-- <td><#%= expense.description %></td> -->
+				<% user = User.find(expense.user_id) %>
+				<td><div class="blue-links"><%= link_to user.name, user_path(user) %></div></td>
+
+				<td><%= (expense.split_between.keep_if { |user| !user.blank? }).join(", ") %></td>
+
+				<!-- display the cost with 2 decimal precision -->
+				<td class="text-right"><%= sprintf '%.2f', expense.cost %></td>
+
+				<td class="text-right">
+					<div id="modify-expense-links">
+						<p>
+							<%= link_to_if false, 'Edit', edit_expense_path(expense) %> | 
+							<%= link_to 'Delete', expense, method: :delete, data: { confirm: 'Are you sure?' } %>
+						</p>
+					</div>
+				</td>
+			</tr>
+			<% end %> <!-- expenses.each -->
+		</tbody>
+	</table> <!-- expense table -->
+	<br>
+
+	<div class="text-center">
+		<button type="submit" class="btn btn-primary">
+			<%= link_to 'Add an Expense', "/expenses/new" %>
+		</button>
+	</div>
+
+</body>

@@ -55,7 +55,8 @@ div.inline {
 body {
 	margin: auto auto;
 	width: 60%;
-	padding-bottom: 4%;
+	padding-top: 60px;
+	padding-bottom: 60px;
 }
 
 #user-paid-table {
@@ -94,4 +95,20 @@ body.expense-body {
 
 .form-checkbox-container .collection_check_boxes {
 	display: inline;
+}
+
+#logo {
+  float: left;
+  margin-right: 10px;
+  font-size: 1.7em;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  padding-top: 9px;
+  font-weight: bold;
+}
+
+#logo:hover {
+  color: #fff;
+  text-decoration: none;
 }

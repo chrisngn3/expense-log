@@ -1,21 +1,30 @@
 Rails.application.routes.draw do
+  root 'pages#welcome'
+
   # Expense
-  # get '/expenses' => 'expenses#index' # replace by: root 'expenses#index'
-  root 'expenses#index'
+  get '/expenses' => 'expenses#index'
   get '/expenses/new' => 'expenses#new'
   post '/expenses' => 'expenses#create'
 
   # We name this route "expense" and Rails will create a helper method called "expense_path"
   get '/expenses/:id' => 'expenses#show', as: :expense
+  delete '/expenses/:id' => 'expenses#destroy'
 
+  # Currently edit is disabled
   get '/expenses/:id/edit' => 'expenses#edit', as: :edit_expense
   patch '/expenses/:id' => 'expenses#update'
-
-  delete '/expenses/:id' => 'expenses#destroy'
+  
 
   # User
   get '/users' => 'users#index'
+  get '/users/new' => 'users#new'
+  post '/users' => 'users#create'
   get '/users/:id' => 'users#show', as: :user
+  delete '/users/:id' => 'users#destroy'
+
+  # Currently editing user is diabled
+  get '/users/:id/edit' => 'users#edit', as: :edit_user
+  patch '/users/:id' => 'users#update'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -2,7 +2,6 @@ class ExpensesController < ApplicationController
 
 	def index
 		@expenses = Expense.all
-		@users = User.all.order(:id)
 	end
 
 	def new
@@ -27,7 +26,7 @@ class ExpensesController < ApplicationController
 
 		if @expense.save
 			flash[:success] = "Expense added!"
-			redirect_to action: 'index' # same as: redirect_to '/expenses'
+			redirect_to root_url # same as: redirect_to '/expenses'
 		else
 			render 'new'
 		end
@@ -74,7 +73,7 @@ class ExpensesController < ApplicationController
     if @expense.update_attributes(expense_params)
     	flash[:success] = "Expense updated!"
       # redirect_to action: 'show', id: @expense.id
-      redirect_to action: 'index'
+      redirect_to root_url
     else
       render 'edit'
     end
@@ -92,7 +91,7 @@ class ExpensesController < ApplicationController
 
 		# @expense.destroy # do I need this?
 		flash[:success] = "Expense removed!"
-		redirect_to action: 'index'
+		redirect_to root_url
 	end
 
 	private

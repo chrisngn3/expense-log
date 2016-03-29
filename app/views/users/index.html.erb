@@ -1,2 +1,50 @@
- 
- 
+<body>
+	<div class="text-center">
+		<br><h1>User Details</h1><br><br>
+	</div>
+
+	<table class="table table-hover table-condensed table-striped">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th class="col-md-3">Name</th>
+				<th class="col-md-3">Owes</th>
+				<th class="text-right col-md-3">Amount Spent $</th>
+				<th class="text-right col-md-3">Modify Users</th>
+				<!-- <th class="text-right">Updated at</th> -->
+				<!-- <th class="text-right">Created at</th> -->
+			</tr>
+		</thead>
+
+		<tbody>
+		<% i = 0 %>
+			<% @users.each do |u| %>
+			<tr>
+				<td><%= i+= 1 %></td>
+				<td class="blue-links"><%= link_to u.name, user_path(u) %></td>
+				<!-- <td><#%= u.owe.map{|k,v| "#{k}=#{v}"}.join(", ") %></td> -->
+				<td class="blue-links"><%= link_to "More Info", user_path(u) %></td>
+				<td class="text-right"><%= sprintf '%.2f', u.amount_paid %></td>
+				<td class="text-right">
+					<div id="modify-expense-links">
+						<p>
+							<%= link_to_if false, 'Edit', edit_user_path(u) %> | 
+							<%= link_to_if false, 'Delete', u, method: :delete, data: { confirm: 'Are you sure?' } %>
+						</p>
+					</div>
+				</td>
+				<!-- <td class="text-right"><#%= u.updated_at %></td> -->
+				<!-- <td class="text-right"><#%= u.created_at %></td> -->
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<br>
+
+	<div class="text-center">
+		<button type="submit" class="btn btn-primary" disabled="disabled">
+			<%= link_to_if false, 'Create a User', '/users/new' %>
+		</button>
+	</div>
+</body>
+

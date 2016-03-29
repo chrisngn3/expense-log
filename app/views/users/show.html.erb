@@ -1,98 +1,98 @@
 <body>
 	<div class="text-center">
-    <br><h1><%= @user.name %>'s Details</h1><br><br>
-  	</div>
-
-  <div id="user-split-table">
-		<table class="table table-condensed table-hover table-bordered table-striped">
-	  	<thead>
-	  		<tr>
-	  			<th class="col-md-3"></th>
-	  			<% User.all.order(:id).each do |u| %>
-	  				<th class="col-md-3 text-right"><%= u.name %></th>
-	  			<% end %>
-	  		</tr>
-	  	</thead>
-
-	  	<tbody>
-	  		<% user_size = User.all.order(:id).size %>
-	  		<tr>
-		  		<td class="col-md-3"><strong><%= "#{@user.name}" %></strong> <small>owes</small></td>
-				<% User.all.order(:id).each do |user| %>
-					<% if user.name == @user.name %>
-						<td class="text-right">xxxxx</td>
-					<% else %>
-						<% if @user[:owe].key?(user.name) %>
-							<!-- display the cost with 2 decimal precision -->
-							<td class="text-right"><%= sprintf '%.2f', @user[:owe][user.name] %></td>
-						<% else %>
-							<td class="text-right">0.00</td>
-						<% end %>
-					<% end %>
-				<% end %>
-			</tr>
-	  	</tbody>
-	  </table> <!-- user split table -->  
-	  <br><br>
+		<br><h1><%= @user.name %>'s Details</h1><br><br>
 	</div>
 
-		<table class="table table-hover table-condensed table-striped">
-  	<thead>
-  		<tr>
-  			<th>Name</th>
-  			<th class="text-right">Amount Spent $</th>
-  			<th class="text-right">Updated at</th>
-  			<th class="text-right">Created at</th>
-  		</tr>
-  	</thead>
+	<div id="user-split-table">
+		<table class="table table-condensed table-hover table-bordered table-striped">
+			<thead>
+				<tr>
+					<th class="col-md-3"></th>
+					<% User.all.order(:id).each do |u| %>
+					<th class="col-md-3 text-right"><%= u.name %></th>
+					<% end %>
+				</tr>
+			</thead>
 
-  	<tbody>
-  		<tr>
-  			<td><%= @user.name %></td>
-        <!-- display the amound_paid with 2 decimal precision -->
-  			<td class="text-right"><%= sprintf '%.2f', @user.amount_paid %></td>
-  			<td class="text-right"><%= @user.updated_at %></td>
-  			<td class="text-right"><%= @user.created_at %></td>
-  		</tr>
-  	</tbody>
-  </table>
-  <br><br>
+			<tbody>
+				<% user_size = User.all.order(:id).size %>
+				<tr>
+					<td class="col-md-3"><strong><%= "#{@user.name}" %></strong> <small>owes</small></td>
+					<% User.all.order(:id).each do |user| %>
+						<% if user.name == @user.name %>
+							<td class="text-right">xxxxx</td>
+						<% else %>
+							<% if @user[:owe].key?(user.name) %>
+								<!-- display the cost with 2 decimal precision -->
+								<td class="text-right"><%= sprintf '%.2f', @user[:owe][user.name] %></td>
+							<% else %>
+								<td class="text-right">0.00</td>
+							<% end %>
+						<% end %>
+					<% end %>
+				</tr>
+			</tbody>
+		</table> <!-- user split table -->  
+		<br><br>
+	</div>
+
+	<table class="table table-hover table-condensed table-striped">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th class="text-right">Amount Spent $</th>
+				<th class="text-right">Updated at</th>
+				<!-- <th class="text-right">Created at</th> -->
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td><%= @user.name %></td>
+				<!-- display the amound_paid with 2 decimal precision -->
+				<td class="text-right"><%= sprintf '%.2f', @user.amount_paid %></td>
+				<td class="text-right"><%= @user.updated_at %></td>
+				<!-- <td class="text-right"><%= @user.created_at %></td> -->
+			</tr>
+		</tbody>
+	</table>
+	<br><br>
 
 
 	<table class="table table-hover table-condensed table-striped">
-  	<thead>
-  		<tr>
-  			<th>#</th>
-  			<th>Paid for</th>
-  			<th>Split between</th>
-  			<th class="text-right">Cost $</th>
-  			<th class="text-right">Updated at</th>
-  		</tr>
-  	</thead>
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Paid for</th>
+				<th>Split between</th>
+				<th class="text-right">Cost $</th>
+				<th class="text-right">Updated at</th>
+			</tr>
+		</thead>
 
-  	<tbody>
-  		<% i = 0 %>
-  		<% Expense.all.each do |expense| %>
-		  	<% if expense.user_id == @user.id %>
-		  		<tr>
-		  			<td><%= i += 1 %></td>
-		  			<td class="blue-links"><%= link_to expense.name, expense_path(expense) %></td>
-		  			<td><%= (expense.split_between.keep_if { |user| !user.blank? }).join(", ") %></td>
-		        <!-- display the amound_paid with 2 decimal precision -->
-		  			<td class="text-right"><%= sprintf '%.2f', expense.cost %></td>
-		  			<td class="text-right"><%= expense.updated_at %></td>
-	  			</tr>
-	  		<% end %>
-  		<% end %>
-  	</tbody>
-  </table>
-  <br>
+		<tbody>
+			<% i = 0 %>
+			<% Expense.all.each do |expense| %>
+			<% if expense.user_id == @user.id %>
+			<tr>
+				<td><%= i += 1 %></td>
+				<td class="blue-links"><%= link_to expense.name, expense_path(expense) %></td>
+				<td><%= (expense.split_between.keep_if { |user| !user.blank? }).join(", ") %></td>
+				<!-- display the amound_paid with 2 decimal precision -->
+				<td class="text-right"><%= sprintf '%.2f', expense.cost %></td>
+				<td class="text-right"><%= expense.updated_at %></td>
+			</tr>
+			<% end %>
+			<% end %>
+		</tbody>
+	</table>
+	<br>
 
 
-  <div class="text-center">
-    <button class="btn btn-primary">
-		<%= link_to 'Back to Main Page', root_url %>
-	</button>
-  </div>
+	<div class="text-center">
+		<button class="btn btn-primary">
+			<%= link_to 'Back to Main Page', root_url %>
+		</button>
+	</div>
 </body>
 
