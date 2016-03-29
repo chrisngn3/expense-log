@@ -2,7 +2,7 @@ class ExpensesController < ApplicationController
 
 	def index
 		@expenses = Expense.all
-		@users = User.all
+		@users = User.all.order(:id)
 	end
 
 	def new

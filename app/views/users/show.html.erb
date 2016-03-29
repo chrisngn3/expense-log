@@ -8,17 +8,17 @@
 	  	<thead>
 	  		<tr>
 	  			<th class="col-md-3"></th>
-	  			<% User.all.each do |u| %>
+	  			<% User.all.order(:id).each do |u| %>
 	  				<th class="col-md-3 text-right"><%= u.name %></th>
 	  			<% end %>
 	  		</tr>
 	  	</thead>
 
 	  	<tbody>
-	  		<% user_size = User.all.size %>
+	  		<% user_size = User.all.order(:id).size %>
 	  		<tr>
 		  		<td class="col-md-3"><strong><%= "#{@user.name}" %></strong> <small>owes</small></td>
-				<% User.all.each do |user| %>
+				<% User.all.order(:id).each do |user| %>
 					<% if user.name == @user.name %>
 						<td class="text-right">xxxxx</td>
 					<% else %>
