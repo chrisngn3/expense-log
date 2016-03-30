@@ -17,7 +17,7 @@
 			</thead>
 
 			<tbody>
-				<td><strong>Paid $</strong></td>
+				<td><strong>Amount Paid $</strong></td>
 				<% user_size = @users.size %>
 				<% @users.each do |u| %>
 				<td class="col-md-3 text-right"><%= u.amount_paid %></td>
@@ -116,16 +116,14 @@
 		</tbody>
 	</table> <!-- expense table -->
 	<br>
+	
 
 	<div class="text-center">
+		<%= link_to 'Add a User', "/users/new", class:"btn btn-primary fixed-dual-button-size" %>
 		<% if User.count > 0 %>
-		<button type="submit" class="btn btn-primary">
-			<%= link_to_if User.count > 0, 'Add an Expense', "/expenses/new" %>
-		</button>
+			<%= link_to 'Add an Expense', "/expenses/new", class:"btn btn-primary fixed-dual-button-size" %>
 		<% else %>
-		<button type="submit" class="btn btn-primary disabled">
-			<%= link_to_if false, 'Add an Expense', "/expenses/new" %>
-		</button>
+			<%= link_to 'Add an Expense', "/expenses/new", class:"btn btn-primary disabled fixed-dual-button-size" %>
 		<% end %>
 	</div>
 

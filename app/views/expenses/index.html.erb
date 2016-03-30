@@ -21,7 +21,7 @@
 			<tr>
 				<td><%= i += 1 %></td>
 				<td><div class="blue-links"><%=	link_to expense.name, "/expenses/#{expense.id}" %></div></td>
-				<% user = User.find(expense.user_id) %>
+				<% user = User.find(expense.user_id) %>s
 				<td><div class="blue-links"><%= link_to user.name, user_path(user) %></div></td>
 				<td><%= (expense.split_between.keep_if { |user| !user.blank? }).join(", ") %></td>
 				<td class="text-right"><%= sprintf '%.2f', expense.cost %></td>
@@ -39,15 +39,11 @@
 	</table>
 	<br>
 
-	<div class="text-center">
+	<div class="text-center fixed-single-button-size">
 		<% if User.count > 0 %>
-		<button type="submit" class="btn btn-primary">
-			<%= link_to_if User.count > 0, 'Add an Expense', "/expenses/new" %>
-		</button>
+			<%= link_to 'Add an Expense', "/expenses/new", class: "btn btn-primary btn-block" %>
 		<% else %>
-		<button type="submit" class="btn btn-primary disabled">
-			<%= link_to_if false, 'Add an Expense', "/expenses/new" %>
-		</button>
+			<%= link_to 'Add an Expense', "/expenses/new", class: "btn btn-primary btn-block disabled" %>
 		<% end %>
 	</div>
 
