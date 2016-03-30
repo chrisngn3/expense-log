@@ -11,7 +11,7 @@
 				<th>Paid by</th>
 				<th>Split between</th>
 				<th><div class="text-right">Cost $</div></th>
-				<th class="text-right">Updated at</th>
+				<th class="text-right">Modify Expenses</th>
 			</tr>
 		</thead>
 
@@ -40,9 +40,16 @@
 	<br>
 
 	<div class="text-center">
-		<button class="btn btn-primary">
-			<%= link_to 'Create an Expense', '/expenses/new' %>
+		<% if User.count > 0 %>
+		<button type="submit" class="btn btn-primary">
+			<%= link_to_if User.count > 0, 'Add an Expense', "/expenses/new" %>
 		</button>
+		<% else %>
+		<button type="submit" class="btn btn-primary disabled">
+			<%= link_to_if false, 'Add an Expense', "/expenses/new" %>
+		</button>
+		<% end %>
 	</div>
+
 </body>
 

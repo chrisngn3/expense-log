@@ -4,6 +4,7 @@
 		<br><h1>Expense Details</h1><br><br>
 	</div>
 
+	<% if @users.size > 0 %>
 	<div id="user-paid-table">
 		<table class="table table-condensed table-hover table-bordered table-striped">
 			<thead>
@@ -23,9 +24,11 @@
 				<% end %>
 			</tbody>
 		</table> <!-- user paid table -->  
+		<br><br>
 	</div>
-	<br><br>
+	<% end %>
 
+	<% if @users.size > 0 %>
 	<div id="user-split-table">
 		<table class="table table-condensed table-hover table-bordered table-striped">
 			<thead>
@@ -65,6 +68,7 @@
 		</table> <!-- user split table -->  
 		<br><br>
 	</div>
+	<% end %>
 	<!-- <h3 class="text-center">Rows Owe Columns</h3><br> -->
 
 
@@ -114,9 +118,15 @@
 	<br>
 
 	<div class="text-center">
+		<% if User.count > 0 %>
 		<button type="submit" class="btn btn-primary">
-			<%= link_to 'Add an Expense', "/expenses/new" %>
+			<%= link_to_if User.count > 0, 'Add an Expense', "/expenses/new" %>
 		</button>
+		<% else %>
+		<button type="submit" class="btn btn-primary disabled">
+			<%= link_to_if false, 'Add an Expense', "/expenses/new" %>
+		</button>
+		<% end %>
 	</div>
 
 </body>
