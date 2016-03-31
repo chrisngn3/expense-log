@@ -29,6 +29,9 @@ gem 'bootstrap_form', '~> 2.3.0'
 # Added 2016/01/31
 gem 'bootstrap-sass', '~> 3.3.6'
 
+# Nested form
+gem "nested_form"
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

@@ -5,20 +5,25 @@
 	</div>
 
 	<div class="expense-form">
-		<%= bootstrap_form_for(@expense) do |f| %>
+		<%= bootstrap_nested_form_for(@expense) do |f| %>
 		<div class="jumbotron">
 			<div class="expense-create-form">
 				<%= f.text_field :name, placeholder: 'Airbnb San Diego', required: true %>
 				<!-- <#%= f.text_area :description, placeholder: 'Optional' %> -->
 				<%= f.text_field :cost, label: "Cost $", placeholder: '99.99', required: true %>
 				<%= f.select :user_id, User.all.order(:id).collect { |u| [ u.name, u.id ] }, label: "Paid by" %>
-				<%= f.collection_check_boxes :split_between, User.all.order(:id), :name, :name,
-				help: "* Include yourself if you are paying for part of the expense" %>
+				<!-- <select> -->
+
+					<%= f.collection_check_boxes :split_between, User.all.order(:id), :name, :name,	
+					help: "* Include yourself if you are paying for part of the expense" %>
+				<!-- </select> -->
+				
+				
 			</div>
 		</div>
 
 		<div class="text-center">
-			<%= f.submit "Submit", class: "btn btn-primary" %>
+			<%= f.submit "Submit", class: "btn btn-success" %>
 			<%= link_to 'Cancel', root_url, type: "submit", class: "btn btn-danger" %>
 		</div>
 		<% end %>
