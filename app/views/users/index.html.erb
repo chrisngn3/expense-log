@@ -27,10 +27,10 @@
 				<td class="text-right"><%= sprintf '%.2f', u.amount_paid %></td>
 				<td class="text-right">
 					<div id="modify-expense-links">
-						<p>
-							<%= link_to_if false, 'Edit', edit_user_path(u) %> | 
-							<%= link_to_if false, 'Delete', u, method: :delete, data: { confirm: 'Are you sure?' } %>
-						</p>
+						<%= link_to 'Edit', edit_user_path(u),
+						class: "btn btn-warning btn-xs disabled" %> 
+						<%= link_to 'Delete', u, method: :delete, data: { confirm: 'Are you sure?' },
+						class: "btn btn-danger btn-xs disabled" %>
 					</div>
 				</td>
 				<!-- <td class="text-right"><#%= u.updated_at %></td> -->

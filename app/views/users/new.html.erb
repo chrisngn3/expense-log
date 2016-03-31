@@ -1,0 +1,22 @@
+
+<body class="expense-body">
+	<div class="text-center">
+		<br><h1>Add User</h1><br>
+	</div>
+
+	<div class="expense-form">
+		<%= bootstrap_form_for(@user) do |f| %>
+		<div class="jumbotron">
+			<div class="expense-create-form">
+				<%= f.text_field :name, placeholder: 'John Doe', required: true %>
+			</div>
+		</div> <!-- jumobotron -->
+
+		<div class="text-center">
+			<%= f.submit "Submit", class: "btn btn-primary" %>
+			<%= link_to 'Cancel', '/users', type: "submit", class:"btn btn-danger" %>
+		</div>
+		<% end %>
+	</div>
+</body>
+

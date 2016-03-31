@@ -11,7 +11,7 @@
 				<tr>
 					<th class="col-md-3"></th>
 					<% @users.each do |u| %>
-					<th class="col-md-3 text-right"><%= u.name %></th>
+						<th class="col-md-3 text-right"><%= u.name %></th>
 					<% end %>
 				</tr>
 			</thead>
@@ -20,7 +20,7 @@
 				<td><strong>Amount Paid $</strong></td>
 				<% user_size = @users.size %>
 				<% @users.each do |u| %>
-				<td class="col-md-3 text-right"><%= u.amount_paid %></td>
+					<td class="col-md-3 text-right"><%= u.amount_paid %></td>
 				<% end %>
 			</tbody>
 		</table> <!-- user paid table -->  
@@ -35,7 +35,7 @@
 				<tr>
 					<th class="col-md-3"></th>
 					<% @users.each do |u| %>
-					<th class="col-md-3 text-right"><%= u.name %></th>
+						<th class="col-md-3 text-right"><%= u.name %></th>
 					<% end %>
 				</tr>
 			</thead>
@@ -47,22 +47,18 @@
 				<tr>
 					<td class="col-md-3"><strong><%= "#{user.name}" %></strong> <small>owes</small></td>
 					<% @users.each do |owe| %>
-					<% if user.name == owe.name %>
-					<td class="text-right">xxxxx</td>
-					<% else %>
-					<% if user[:owe].key?(owe.name) %>
-					<!-- display the cost with 2 decimal precision -->
-					<td class="text-right"><%= sprintf '%.2f', user[:owe][owe.name] %></td>
-					<% else %>
-					<td class="text-right">0.00</td>
+						<% if user.name == owe.name %>
+							<td class="text-right">xxxxx</td>
+						<% else %>
+							<% if user[:owe].key?(owe.name) %>
+								<!-- display the cost with 2 decimal precision -->
+								<td class="text-right"><%= sprintf '%.2f', user[:owe][owe.name] %></td>
+							<% else %>
+								<td class="text-right">0.00</td>
+							<% end %>
+						<% end %>
 					<% end %>
-					<% end %>
-					<% end %>
-
-					<% 1.upto user_size do |i| %>
-
-					<% end %>
-				</tr>
+					</tr>
 				<% end %>
 			</tbody>
 		</table> <!-- user split table -->  
@@ -105,10 +101,10 @@
 
 				<td class="text-right">
 					<div id="modify-expense-links">
-						<p>
-							<%= link_to_if false, 'Edit', edit_expense_path(expense) %> | 
-							<%= link_to 'Delete', expense, method: :delete, data: { confirm: 'Are you sure?' } %>
-						</p>
+						<%= link_to_if true, 'Edit', edit_expense_path(expense),
+						class: "btn btn-xs btn-warning disabled" %>
+						<%= link_to 'Delete', expense, method: :delete, data: { confirm: 'Are you sure?' },
+						class: "btn btn-xs btn-danger" %>
 					</div>
 				</td>
 			</tr>

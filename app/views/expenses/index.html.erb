@@ -21,16 +21,16 @@
 			<tr>
 				<td><%= i += 1 %></td>
 				<td><div class="blue-links"><%=	link_to expense.name, "/expenses/#{expense.id}" %></div></td>
-				<% user = User.find(expense.user_id) %>s
+				<% user = User.find(expense.user_id) %>
 				<td><div class="blue-links"><%= link_to user.name, user_path(user) %></div></td>
 				<td><%= (expense.split_between.keep_if { |user| !user.blank? }).join(", ") %></td>
 				<td class="text-right"><%= sprintf '%.2f', expense.cost %></td>
 				<td class="text-right">
 					<div id="modify-expense-links">
-						<p>
-							<%= link_to_if false, 'Edit', edit_expense_path(expense) %> | 
-							<%= link_to 'Delete', expense, method: :delete, data: { confirm: 'Are you sure?' } %>
-						</p>
+						<%= link_to 'Edit', edit_expense_path(expense),
+						class: "btn btn-xs btn-warning disabled" %>
+						<%= link_to 'Delete', expense, method: :delete, data: { confirm: 'Are you sure?' },
+						class: "btn btn-xs btn-danger" %>
 					</div>
 				</td>
 			</tr>

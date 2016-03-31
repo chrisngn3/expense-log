@@ -40,13 +40,19 @@ color: blue;
 	color: blue;
 }
 
-#modify-expense-links > p > a:first-child {
-	color: red;
+#modify-expense-links > a {
+	width: 30%;
 }
 
-#modify-expense-links > p > a:nth-child(2) {
-	color: orange;
+/*
+#modify-expense-links > a:first-child {
+	width: 30%;
 }
+
+#modify-expense-links > a:nth-child(2) {
+	width: 30%;
+}
+*/
 
 div.inline {
 	float: center;
